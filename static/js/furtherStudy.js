@@ -19,13 +19,27 @@ let numWrong = 0;
 // Loop over the chars in `word` and create divs.
 //
 const createDivsForChars = (word) => {
-  // Replace this with your code
+  for (const char of word) {
+    const div = document.createElement('div');
+    div.classList.add('letter-box');
+    div.classList.add(char);
+
+    document.querySelector('#word-container').append(div);
+  }
+
 };
 
 // Loop over each letter in `ALPHABET` and generate buttons.
 //
 const generateLetterButtons = () => {
-  // Replace this with your code
+  for (const char of ALPHABET) {
+    const button = document.createElement('button');
+    button.classList.add(char);
+    button.innerHTML = char;
+
+    document.querySelector('#letter-buttons').append(button);
+  }
+
 };
 
 // Set the `disabled` property of `buttonEl` to `true.
@@ -33,19 +47,23 @@ const generateLetterButtons = () => {
 // `buttonEl` is an `HTMLElement` object.
 //
 const disableLetterButton = (buttonEl) => {
-  // Replace this with your code
+
+  buttonEl.setAttribute('disabled', true);
 };
 
 // Return `true` if `letter` is in the word.
 //
 const isLetterInWord = (letter) => {
-  // Replace this with your code
+  return document.querySelector(`div.${letter}`) !== null;
 };
 
 // Called when `letter` is in word. Update contents of divs with `letter`.
 //
 const handleCorrectGuess = (letter) => {
-  // Replace this with your code
+  const letterDivs = document.querySelectorAll('div.${letter}');
+  for (const div of letterDivs) {
+    div.innerHTML = letter;
+  }
 };
 
 // Called when `letter` is not in word.
@@ -54,7 +72,21 @@ const handleCorrectGuess = (letter) => {
 // message. Otherwise, increment `numWrong` and update the shark image.
 //
 const handleWrongGuess = () => {
-  // Replace this with your code
+  numWrong += 1;
+
+  document
+    .querySelector('#shark-img img')
+    .setAttribute('src', `/static/images/guess${numWrong}.png`);
+
+  if (numWrong === 5) {
+    const buttons = document.querySelectorAll('buttons');
+
+    for (const btn of buttons) {
+      btn.setAttribute('disabled', true);
+    }
+
+    document.querySelector('#play-again').style.display = '';
+  }
 };
 
 //  Reset game state. Called before restarting the game.
